@@ -15,15 +15,6 @@ A Chrome extension that provides an AI-powered assistant panel for analyzing web
 - **Easy Configuration**: Simple setup through the extension popup
 
 ## Installation
-
-### Method 1: Quick Install (Recommended)
-
-1. Clone or download this repository
-2. Run the installation script: `./install-dependencies.sh`
-3. This will install dependencies, build the extension, and provide next steps
-
-### Method 2: Manual Install
-
 1. Install dependencies: `npm install`
 2. Build the extension: `npm run build`
 3. Open Chrome and navigate to `chrome://extensions/`
@@ -99,7 +90,6 @@ browser-assistant/
 
 The extension uses OpenAI's Chat Completions API with the following features:
 - Model: GPT-3.5-turbo
-- Max tokens: 1000
 - Temperature: 0.7
 - System prompt for consistent behavior
 
