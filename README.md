@@ -1,6 +1,6 @@
 # Browser Assistant Chrome Extension
 
-A Chrome extension that provides an AI-powered assistant panel for analyzing web pages and answering questions about their content. The extension integrates with OpenAI's API to provide intelligent page summaries and chat functionality.
+A Chrome extension that provides an AI-powered assistant panel for analyzing web pages and answering questions about their content. The extension integrates with OpenAI's API to provide intelligent page summaries and chat functionality. It has sample implementation of mermaid tool to create visual diagram like component diagram, flow charts, sequence diagram, class diagram from the active web page content.
 
 ## Features
 
@@ -58,6 +58,7 @@ A Chrome extension that provides an AI-powered assistant panel for analyzing web
 - Press Enter or click "Send" to submit your question
 - The assistant will respond based on the current page content
 - You can ask about specific information, request summaries, or get explanations
+- You can ask for creating component diagram, sequence diagram, flow charts, class diagram from the page content
 
 ## File Structure
 
