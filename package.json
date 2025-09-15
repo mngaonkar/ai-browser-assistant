@@ -1,0 +1,37 @@
+{
+  "name": "browser-assistant",
+  "version": "1.0.0",
+  "description": "Chrome extension with LangGraph-based AI assistant for web page analysis",
+  "main": "background.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "build-simple": "webpack --config webpack-simple.config.js --mode production",
+    "dev": "webpack --mode development --watch",
+    "package": "npm run build && zip -r browser-assistant.zip manifest.json popup.html popup.js content.js content.css background.js README.md dist/",
+    "test": "echo 'No tests configured yet'"
+  },
+  "keywords": [
+    "chrome-extension",
+    "ai-assistant",
+    "langgraph",
+    "openai",
+    "browser-automation"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/preset-env": "^7.28.3",
+    "babel-loader": "^10.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.0"
+  },
+"dependencies": {
+  "@langchain/community": "^0.3.55",
+  "@langchain/core": "^0.3.75",
+  "@langchain/langgraph": "^0.4.9",
+  "@langchain/langgraph-supervisor": "^0.0.20",
+  "@langchain/openai": "^0.6.11",
+  "langsmith": "^0.1.0"
+}
+}
