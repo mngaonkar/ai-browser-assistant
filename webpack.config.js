@@ -34,11 +34,6 @@ module.exports = {
         { from: 'popup.html', to: 'popup.html' },
         { from: 'content.css', to: 'content.css' },
         { from: 'src/mermaid-render.js', to: 'mermaid-render.js' },
-        { from: 'test.html', to: 'test.html' },
-        { from: 'test-langgraph.html', to: 'test-langgraph.html' },
-        { from: 'test-background.html', to: 'test-background.html' },
-        { from: 'test-init.html', to: 'test-init.html' },
-        { from: 'debug.html', to: 'debug.html' },
         { from: 'README.md', to: 'README.md' }
       ]
     }),
