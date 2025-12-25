@@ -33,16 +33,18 @@ export class LangGraphAgent {
     if (this.langsmithApiKey) {
       // Set environment variables for LangSmith tracing
       if (typeof process !== 'undefined') {
-        process.env.LANGSMITH_TRACING = 'true';
+        process.env.LANGSMITH_TRACING = true;
         process.env.LANGSMITH_API_KEY = this.langsmithApiKey;
         process.env.LANGSMITH_PROJECT = this.langsmithProject;
+        process.env.LANGSMITH_ENDPOINT = "https://api.smith.langchain.com"; 
       }
       
       // Also set in window object for browser environment
       if (typeof window !== 'undefined') {
-        window.LANGSMITH_TRACING = 'true';
+        window.LANGSMITH_TRACING = true;
         window.LANGSMITH_API_KEY = this.langsmithApiKey;
         window.LANGSMITH_PROJECT = this.langsmithProject;
+        window.LANGSMITH_ENDPOINT = "https://api.smith.langchain.com";
       }
       
       console.log('LangGraphAgent: LangSmith environment variables set');
@@ -52,6 +54,7 @@ export class LangGraphAgent {
   // Initialize the agent with page context
   async initialize(pageData, threadId = null) {
     try {
+      console.log('LangGraphAgent: Initialize method called');
       this.pageContext = {
         url: pageData.url,
         title: pageData.title,
@@ -60,17 +63,21 @@ export class LangGraphAgent {
       };
       
       this.threadId = threadId || this.generateThreadId();
+      console.log('LangGraphAgent: Thread ID generated:', this.threadId);
       
       // Clear previous conversation for new page
       this.conversationHistory = [];
       
       // Initialize the LangGraph agent
+      console.log('LangGraphAgent: About to call setupAgent()');
       await this.setupAgent();
+      console.log('LangGraphAgent: setupAgent() completed successfully');
       
       console.log('LangGraphAgent: Initialized with thread ID:', this.threadId);
       return this.threadId;
     } catch (error) {
       console.error('LangGraphAgent: Error initializing:', error);
+      console.error('LangGraphAgent: Error stack:', error.stack);
       throw error;
     }
   }
@@ -232,13 +239,15 @@ export class LangGraphAgent {
           };
           
           // Add tracer if available
-          if (this.tracer) {
-            invokeOptions.callbacks = [this.tracer];
-          }
-          invokeOptions.verbose = true;
+          // if (this.tracer) {
+          //   invokeOptions.callbacks = [this.tracer];
+          // }
+          // invokeOptions.verbose = true;
           
           console.log('LangGraphAgent: Invoking agent with options:', invokeOptions);
-          result = await this.supervisor.invoke(invokeOptions);
+          result = await this.supervisor.invoke(invokeOptions, 
+            { callbacks: [this.tracer] }
+          );
         } catch (invokeError) {
           console.warn('LangGraphAgent: Standard invoke failed, trying alternative method:', invokeError);
         }
