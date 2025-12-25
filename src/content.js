@@ -178,6 +178,7 @@ class BrowserAssistant {
       chatContainer.removeChild(chatContainer.lastChild);
       
       // Provide more specific error messages
+      // TODO: add user-friendly messages from a catelog of common errors
       let errorMessage = 'Sorry, I encountered an error while analyzing the page.';
       
       if (error.message.includes('Could not establish connection')) {
@@ -188,7 +189,7 @@ class BrowserAssistant {
         errorMessage = 'Background script not running. Please reload the extension.';
       }
       
-      this.addMessage('assistant', errorMessage);
+      this.addMessage('assistant', error.message);
     }
   }
 
