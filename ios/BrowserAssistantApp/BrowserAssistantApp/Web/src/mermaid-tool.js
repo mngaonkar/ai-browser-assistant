@@ -1,1 +1,1 @@
-../../../../../shared/mermaid-tool.js
+export { MermaidDiagramTool } from "../shared/mermaid-tool.js";
