@@ -1,0 +1,6 @@
+{
+  "appId": "com.example.browserassistant",
+  "appName": "Browser Assistant",
+  "webDir": "BrowserAssistantApp/Web",
+  "bundledWebRuntime": false
+}

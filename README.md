@@ -161,16 +161,16 @@ Modify `background.js` to customize:
 - OpenAI API key
 - Basic knowledge of JavaScript and Chrome extensions
 
-### iOS WebView App (HTML/CSS/JS)
+### iOS WebView App (Ionic + Capacitor)
 
-This repo now includes a lightweight iOS wrapper that loads a local HTML/CSS/JS app inside a `WKWebView`. The web UI stores configuration locally and calls the OpenAI API directly from JavaScript.
+This repo now includes a lightweight iOS wrapper that loads a local Ionic (HTML/CSS/JS) app inside a `WKWebView` using Capacitor conventions. The web UI stores configuration locally and calls the OpenAI API directly from JavaScript.
 
 1. Open `ios/BrowserAssistantApp/BrowserAssistantApp.xcodeproj` in Xcode.
 2. Select a simulator or device target.
 3. Update the bundle identifier and signing team if needed.
 4. Build and run.
 
-The web UI lives in `ios/BrowserAssistantApp/BrowserAssistantApp/Web` and can be edited like any static website. The SwiftUI `WebView` simply loads `index.html` from that folder.
+The web UI lives in `ios/BrowserAssistantApp/BrowserAssistantApp/Web` and can be edited like any static website. The SwiftUI `WebView` simply loads `index.html` from that folder, while `ios/BrowserAssistantApp/capacitor.config.json` tracks Capacitor settings.
 
 ### Making Changes
 

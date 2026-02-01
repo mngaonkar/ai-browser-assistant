@@ -4,41 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Browser Assistant</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"
+    />
     <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <script src="capacitor.js"></script>
   </head>
   <body>
-    <main class="app">
-      <header class="app__header">
-        <div>
-          <h1>Browser Assistant</h1>
-          <p>AI-powered page assistant running in a native iOS WebView.</p>
-        </div>
-      </header>
-
-      <section class="card">
-        <h2>Configuration</h2>
-        <label class="field">
-          <span>OpenAI API Key</span>
-          <input id="apiKey" type="password" placeholder="sk-..." autocomplete="off" />
-        </label>
-        <label class="field">
-          <span>API Base URL</span>
-          <input id="apiBase" type="text" value="https://api.openai.com" />
-        </label>
-        <button id="saveConfig" class="button">Save Settings</button>
-        <p id="configStatus" class="status"></p>
-      </section>
-
-      <section class="card">
-        <h2>Ask a Question</h2>
-        <label class="field">
-          <span>Prompt</span>
-          <textarea id="prompt" rows="4" placeholder="Summarize this page or ask a question."></textarea>
-        </label>
-        <button id="sendPrompt" class="button button--primary">Send</button>
-        <pre id="response" class="response" aria-live="polite"></pre>
-      </section>
-    </main>
+    <ion-app>
+      <ion-router use-hash="true">
+        <ion-route url="/" component="page-chat"></ion-route>
+        <ion-route url="/settings" component="page-settings"></ion-route>
+      </ion-router>
+      <ion-nav></ion-nav>
+    </ion-app>
     <script src="app.js"></script>
   </body>
 </html>
