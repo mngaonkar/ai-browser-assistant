@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Browser Assistant</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <div>
+          <h1>Browser Assistant</h1>
+          <p>AI-powered page assistant running in a native iOS WebView.</p>
+        </div>
+      </header>
+
+      <section class="card">
+        <h2>Configuration</h2>
+        <label class="field">
+          <span>OpenAI API Key</span>
+          <input id="apiKey" type="password" placeholder="sk-..." autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>API Base URL</span>
+          <input id="apiBase" type="text" value="https://api.openai.com" />
+        </label>
+        <button id="saveConfig" class="button">Save Settings</button>
+        <p id="configStatus" class="status"></p>
+      </section>
+
+      <section class="card">
+        <h2>Ask a Question</h2>
+        <label class="field">
+          <span>Prompt</span>
+          <textarea id="prompt" rows="4" placeholder="Summarize this page or ask a question."></textarea>
+        </label>
+        <button id="sendPrompt" class="button button--primary">Send</button>
+        <pre id="response" class="response" aria-live="polite"></pre>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
