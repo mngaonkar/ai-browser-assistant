@@ -1,4 +1,20 @@
+import { LangGraphAgent } from "./src/langgraph-agent.js";
+
 const STORAGE_KEY = "browserAssistantConfig";
+
+const defaultPageContext = {
+  url: "app://local",
+  title: "Browser Assistant iOS",
+  content:
+    "You are running the Browser Assistant inside an iOS WebView. There is no active browser page context.",
+};
+
+const agentState = {
+  instance: null,
+  threadId: null,
+  apiKey: null,
+  apiBase: null,
+};
 
 const createPageTemplates = () => {
   customElements.define(
@@ -19,7 +35,7 @@ const createPageTemplates = () => {
               <ion-card class="hero-card">
                 <ion-card-header>
                   <ion-card-title>Conversation</ion-card-title>
-                  <ion-card-subtitle>Ask questions about the current page or topic.</ion-card-subtitle>
+                  <ion-card-subtitle>Ask questions or request diagrams.</ion-card-subtitle>
                 </ion-card-header>
                 <ion-card-content>
                   <ion-item lines="full">
@@ -68,7 +84,7 @@ const createPageTemplates = () => {
                   </ion-item>
                   <ion-item lines="full">
                     <ion-label position="stacked">API Base URL</ion-label>
-                    <ion-input id="apiBase" type="text" value="https://api.openai.com"></ion-input>
+                    <ion-input id="apiBase" type="text" value="https://api.openai.com/v1"></ion-input>
                   </ion-item>
                   <ion-button id="saveConfig" expand="block" class="full-width">Save Settings</ion-button>
                   <p id="configStatus" class="status-text"></p>
@@ -85,18 +101,18 @@ const createPageTemplates = () => {
 const loadConfig = () => {
   const stored = localStorage.getItem(STORAGE_KEY);
   if (!stored) {
-    return { apiKey: "", apiBase: "https://api.openai.com" };
+    return { apiKey: "", apiBase: "https://api.openai.com/v1" };
   }
 
   try {
     const config = JSON.parse(stored);
     return {
       apiKey: config.apiKey || "",
-      apiBase: config.apiBase || "https://api.openai.com",
+      apiBase: config.apiBase || "https://api.openai.com/v1",
     };
   } catch (error) {
     console.error("Failed to parse config", error);
-    return { apiKey: "", apiBase: "https://api.openai.com" };
+    return { apiKey: "", apiBase: "https://api.openai.com/v1" };
   }
 };
 
@@ -104,38 +120,24 @@ const saveConfig = (config) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
 };
 
-const callOpenAI = async ({ apiKey, apiBase, prompt }) => {
-  const endpoint = `${apiBase.replace(/\/$/, "")}/v1/chat/completions`;
-
-  const response = await fetch(endpoint, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are a helpful assistant inside an iOS WebView. Keep responses concise.",
-        },
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-      temperature: 0.6,
-    }),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || "Request failed.");
+const ensureAgent = async (config) => {
+  if (
+    agentState.instance &&
+    agentState.apiKey === config.apiKey &&
+    agentState.apiBase === config.apiBase
+  ) {
+    return agentState.instance;
   }
 
-  return response.json();
+  const agent = new LangGraphAgent(config.apiKey, config.apiBase);
+  const threadId = await agent.initialize(defaultPageContext);
+
+  agentState.instance = agent;
+  agentState.threadId = threadId;
+  agentState.apiKey = config.apiKey;
+  agentState.apiBase = config.apiBase;
+
+  return agent;
 };
 
 const bindSettings = () => {
@@ -155,12 +157,25 @@ const bindSettings = () => {
   saveConfigButton.addEventListener("click", () => {
     const nextConfig = {
       apiKey: apiKeyInput.value.trim(),
-      apiBase: apiBaseInput.value.trim() || "https://api.openai.com",
+      apiBase: apiBaseInput.value.trim() || "https://api.openai.com/v1",
     };
 
     saveConfig(nextConfig);
     configStatus.textContent = "Settings saved locally on this device.";
   });
+};
+
+const renderResponse = (responseOutput, message) => {
+  if (!message) {
+    responseOutput.textContent = "No response text returned.";
+    return;
+  }
+
+  if (message.trim().startsWith("<")) {
+    responseOutput.innerHTML = message;
+  } else {
+    responseOutput.textContent = message;
+  }
 };
 
 const bindChat = () => {
@@ -173,10 +188,10 @@ const bindChat = () => {
   }
 
   sendPromptButton.addEventListener("click", async () => {
-    const { apiKey, apiBase } = loadConfig();
+    const config = loadConfig();
     const prompt = promptInput.value.trim();
 
-    if (!apiKey) {
+    if (!config.apiKey) {
       responseOutput.textContent = "Please provide an API key in settings.";
       return;
     }
@@ -190,9 +205,9 @@ const bindChat = () => {
     sendPromptButton.disabled = true;
 
     try {
-      const data = await callOpenAI({ apiKey, apiBase, prompt });
-      const message = data.choices?.[0]?.message?.content;
-      responseOutput.textContent = message || "No response text returned.";
+      const agent = await ensureAgent(config);
+      const message = await agent.processMessage(prompt);
+      renderResponse(responseOutput, message);
     } catch (error) {
       responseOutput.textContent = `Error: ${error.message}`;
     } finally {
@@ -202,12 +217,14 @@ const bindChat = () => {
 };
 
 const handleRouteChange = () => {
-  const hash = window.location.hash.replace("#/", "");
-  if (hash.startsWith("settings")) {
-    bindSettings();
-  } else {
-    bindChat();
-  }
+  window.setTimeout(() => {
+    const hash = window.location.hash.replace("#/", "");
+    if (hash.startsWith("settings")) {
+      bindSettings();
+    } else {
+      bindChat();
+    }
+  }, 0);
 };
 
 createPageTemplates();

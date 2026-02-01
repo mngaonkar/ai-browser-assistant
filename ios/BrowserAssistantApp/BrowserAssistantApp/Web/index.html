@@ -12,6 +12,19 @@
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
     <script src="capacitor.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "@langchain/openai": "https://esm.sh/@langchain/openai?bundle",
+          "@langchain/core/messages": "https://esm.sh/@langchain/core/messages?bundle",
+          "@langchain/langgraph/prebuilt": "https://esm.sh/@langchain/langgraph/prebuilt?bundle",
+          "@langchain/langgraph/web": "https://esm.sh/@langchain/langgraph/web?bundle",
+          "@langchain/core/tracers/tracer_langchain": "https://esm.sh/@langchain/core/tracers/tracer_langchain?bundle",
+          "@langchain/core/tools": "https://esm.sh/@langchain/core/tools?bundle",
+          "langsmith": "https://esm.sh/langsmith?bundle"
+        }
+      }
+    </script>
   </head>
   <body>
     <ion-app>
@@ -21,6 +34,6 @@
       </ion-router>
       <ion-nav></ion-nav>
     </ion-app>
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
   </body>
 </html>
