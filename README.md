@@ -170,7 +170,7 @@ This repo now includes a lightweight iOS wrapper that loads a local Ionic (HTML/
 3. Update the bundle identifier and signing team if needed.
 4. Build and run.
 
-The web UI lives in `ios/BrowserAssistantApp/BrowserAssistantApp/Web` and can be edited like any static website. The SwiftUI `WebView` simply loads `index.html` from that folder, while `ios/BrowserAssistantApp/capacitor.config.json` tracks Capacitor settings. The agent logic is reused by loading the existing JavaScript modules from `Web/src`.
+The web UI lives in `ios/BrowserAssistantApp/BrowserAssistantApp/Web` and can be edited like any static website. The SwiftUI `WebView` simply loads `index.html` from that folder, while `ios/BrowserAssistantApp/capacitor.config.json` tracks Capacitor settings. The agent logic is reused by loading the existing JavaScript modules from `Web/src`, with shared Mermaid tooling sourced from `shared/`.
 
 ### Making Changes
 
