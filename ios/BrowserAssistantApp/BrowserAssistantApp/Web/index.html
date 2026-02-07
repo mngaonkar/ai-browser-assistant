@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Browser Assistant</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <script src="capacitor.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "@langchain/openai": "https://esm.sh/@langchain/openai?bundle",
+          "@langchain/core/messages": "https://esm.sh/@langchain/core/messages?bundle",
+          "@langchain/langgraph/prebuilt": "https://esm.sh/@langchain/langgraph/prebuilt?bundle",
+          "@langchain/langgraph/web": "https://esm.sh/@langchain/langgraph/web?bundle",
+          "@langchain/core/tracers/tracer_langchain": "https://esm.sh/@langchain/core/tracers/tracer_langchain?bundle",
+          "@langchain/core/tools": "https://esm.sh/@langchain/core/tools?bundle",
+          "langsmith": "https://esm.sh/langsmith?bundle"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <ion-app>
+      <ion-router use-hash="true">
+        <ion-route url="/" component="page-chat"></ion-route>
+        <ion-route url="/settings" component="page-settings"></ion-route>
+      </ion-router>
+      <ion-nav></ion-nav>
+    </ion-app>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

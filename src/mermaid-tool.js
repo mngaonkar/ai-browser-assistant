@@ -1,4 +1,4 @@
-// Mermaid diagram tool for LangGraph agent
+../ios/BrowserAssistantApp/BrowserAssistantApp/shared/mermaid-tool.js
 import { Tool } from "@langchain/core/tools";
 
 export class MermaidDiagramTool extends Tool {
@@ -76,4 +76,3 @@ export class MermaidDiagramTool extends Tool {
     }
   }
 }
-

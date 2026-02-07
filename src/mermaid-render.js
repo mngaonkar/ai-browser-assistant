@@ -1,4 +1,4 @@
-function renderMermaidDiagram(diagramId, mermaidCode) {
+../ios/BrowserAssistantApp/BrowserAssistantApp/shared/mermaid-render.js
     if (typeof mermaid === 'undefined') {
       const script = document.createElement('script');
       script.src = 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js';
